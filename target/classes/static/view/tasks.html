@@ -1,0 +1,97 @@
+
+
+<div ng-controller="tasksCtrl">
+    <h2 class="page-title">Task Manager using Spring MVC 4 Rest &amp; AngularJS</h2>
+    <div id="task-panel" class="fadein fadeout showpanel panel"  ng-show="toggle">
+        <div class="panel-heading">
+            <i class="panel-title-icon fa fa-tasks"></i>
+            <span class="panel-title">Recent Tasks</span>
+            <div class="panel-heading-controls">
+                <button ng-click="toggle = !toggle" class="btn-panel">Add New Task</button>
+                <button class="btn-panel" confirmed-click="archiveTasks()" ng-confirm-click="Would you like to archive completed tasks?">Clear completed tasks</button>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Task Name</th>
+                    <th>Task Descirption</th>
+                    <th>Task Priority</th>
+                    <th>Task Status</th>
+                    <th>IsActive</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="task in tasks.data">
+                    <td>
+                        {{task.taskId}}
+                    </td>
+                    <td>
+                        {{task.taskName}}
+                    </td>
+                    <td>
+                        {{task.taskDescription}}
+                    </td>
+                    <td>
+                        {{task.taskPriority}}
+                    </td>
+                    <td>
+                        {{task.taskStatus}}
+                    </td>
+                    <td>
+                        <input id="{{task.taskId}}" type="checkbox" value="{{task.taskId}}" ng-checked="selection.indexOf(task.taskId) > -1" ng-click="toggleSelection(task.taskId)" />
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+    <div id="add-task-panel" class="fadein fadeout addpanel panel" ng-hide="toggle">
+        <div class="panel-heading">
+            <i class="panel-title-icon fa fa-plus"></i>
+            <span class="panel-title">Add Task</span>
+            <div class="panel-heading-controls">
+                <button ng-click="toggle = !toggle" class="btn-panel">Show All Tasks</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="task" >
+                <table class="add-task">
+                    <tr>
+                        <td>Task Name:</td>
+                        <td><input type="text" ng-model="taskName"/></td>
+                    </tr>
+                    <tr>
+                        <td>Task Description:</td>
+                        <td><input type="text" ng-model="taskDesc"/></td>
+                    </tr>
+                    <tr>
+                        <td>Task Status:</td>
+                        <td>
+                            <select ng-model="taskStatus" ng-options="status as status for status in statuses">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Task Priority:</td>
+                        <td>
+                            <select ng-model="taskPriority" ng-options="priority as priority for priority in priorities">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><br/><button ng-click="addTask()" class="btn-panel-big">Add New Task</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
