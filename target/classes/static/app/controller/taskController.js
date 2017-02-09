@@ -29,11 +29,11 @@ TaskManagerApp.controller('tasksCtrl', function ($scope, $http, $location, $loca
        $scope.tasks = data;
        console.log($scope.tasks);
        	        for(var i=0;i<$scope.tasks.data.length;i++){
-       	            if($scope.tasks.data[i].taskStatus=='ACTIVE'){
+       	            if($scope.tasks.data[i].taskStatus=='COMPLETE'){
        	           	 $scope.selection.push($scope.tasks.data[i].taskId);
        	        }
        	        }
-
+        //$route.reload();
     });
 
     //add a new task
@@ -71,7 +71,7 @@ TaskManagerApp.controller('tasksCtrl', function ($scope, $http, $location, $loca
                     console.log(idx);
         		  $http({
                     method: 'PUT',
-                    url: '/tasks/update/' +taskId+'/COMPLETE',
+                    url: '/tasks/update/' +taskId+'/ACTIVE',
                     data: $scope.selection,
                     headers: {'Content-Type': 'application/json'}
 
@@ -89,7 +89,7 @@ TaskManagerApp.controller('tasksCtrl', function ($scope, $http, $location, $loca
         	    console.log(idx);
         	      $http({
                        method: 'PUT',
-                       url: '/tasks/update/' +taskId+'/ACTIVE',
+                       url: '/tasks/update/' +taskId+'/COMPLETE',
                        data: $scope.selection,
                        headers: {'Content-Type': 'application/json'}
 
@@ -103,7 +103,35 @@ TaskManagerApp.controller('tasksCtrl', function ($scope, $http, $location, $loca
         	    }
         	  };
 
+        $scope.deleteTask = function deleteTask(){
+            alert("chutiya banaya");
+            $http({
+                            method: 'DELETE',
+                            url: '/tasks/delete/COMPLETE',
+                            data: $scope.selection,
+                            headers: {'Content-Type': 'application/json'}
+                        }).then(function (model) {
+                            //Update list. Again iIt's not really what I wanted to do.
+                            $http({
+                                    method: 'GET',
+                                    url: '/tasks',
+                                    data: $scope.selection,
+                                    headers: {'Content-Type': 'application/json'}
 
+                                }).then(function (data) {
+                                   $scope.tasks = data;
+                                   console.log($scope.tasks);
+                                   	        for(var i=0;i<$scope.tasks.data.length;i++){
+                                   	            if($scope.tasks.data[i].taskStatus=='COMPLETED'){
+                                   	           	 $scope.selection.push($scope.tasks.data[i].taskId);
+                                   	        }
+                                   	        }
+                                    //$route.reload();
+                                });
+
+                        });
+                        $location.path('/tasks');
+        };
 
 /*
     //Post model.
