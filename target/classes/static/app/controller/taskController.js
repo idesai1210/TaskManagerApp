@@ -1,4 +1,4 @@
-TaskManagerApp.controller('tasksCtrl', function ($scope, $http, $location, $localStorage, ngDialog) {
+TaskManagerApp.controller('tasksCtrl', function ($scope, $http, $location, $localStorage, ngDialog, $route) {
     $scope.model = {brand: {}};
     $scope.listBrand = [];
     $scope.listModel = [{
@@ -56,10 +56,55 @@ TaskManagerApp.controller('tasksCtrl', function ($scope, $http, $location, $loca
     			 $scope.taskPriority="";
     			 $scope.taskStatus="";
     			 $scope.toggle='!toggle';
+    			 $route.reload();
     			 $location.path('/tasks/insert');
     		    });
     		}
     	};
+
+
+    	$scope.toggleSelection = function toggleSelection(taskId) {
+        	    var idx = $scope.selection.indexOf(taskId);
+                 console.log(taskId);
+        	    // is currently selected
+        	    if (idx > -1) {
+                    console.log(idx);
+        		  $http({
+                    method: 'PUT',
+                    url: '/tasks/update/' +taskId+'/COMPLETE',
+                    data: $scope.selection,
+                    headers: {'Content-Type': 'application/json'}
+
+                    }).then(function(data) {
+        			 alert("Task unmarked");
+        			 $scope.tasks = data;
+        		    });
+        	      $scope.selection.splice(idx, 1);
+        	      $route.reload();
+        	      $location.path('/tasks');
+        	    }
+
+        	    // is newly selected
+        	    else {
+        	    console.log(idx);
+        	      $http({
+                       method: 'PUT',
+                       url: '/tasks/update/' +taskId+'/ACTIVE',
+                       data: $scope.selection,
+                       headers: {'Content-Type': 'application/json'}
+
+                       }).then(function(data) {
+        			 alert("Task marked completed");
+        			 $scope.tasks = data;
+        		    });
+        	      $scope.selection.push(taskId);
+        	      $route.reload();
+        	      $location.path('/tasks');
+        	    }
+        	  };
+
+
+
 /*
     //Post model.
     $scope.createModel = function () {

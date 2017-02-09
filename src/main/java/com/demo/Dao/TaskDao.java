@@ -13,9 +13,9 @@ public interface TaskDao {
 
     Task getTaskById(int id);
 
-    void deleteTaskByID(int id);
+    void deleteTaskByStatus(String taskStatus);
 
-    void updateTask(Task task) throws ParseException;
+    void updateTask(int taskId, String taskStatus) throws ParseException;
 
     void insertTask(Task task);
 }

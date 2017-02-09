@@ -28,13 +28,13 @@ public class TaskService {
         return mySqlTaskDaoImpl.getTaskById(id);
     }
 
-    public void deleteTaskByID(int id){
-        mySqlTaskDaoImpl.deleteTaskByID(id);
+    public void deleteTaskByStatus(String taskStatus){
+        mySqlTaskDaoImpl.deleteTaskByStatus(taskStatus);
     }
 
-    public void updateTask(Task task){
+    public void updateTask(int taskId, String taskStatus){
         try {
-            this.mySqlTaskDaoImpl.updateTask(task);
+            this.mySqlTaskDaoImpl.updateTask(taskId, taskStatus);
         } catch (ParseException e) {
             e.printStackTrace();
         }

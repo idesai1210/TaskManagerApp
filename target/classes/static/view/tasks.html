@@ -21,7 +21,7 @@
                     <th>Task Descirption</th>
                     <th>Task Priority</th>
                     <th>Task Status</th>
-                    <th>IsActive</th>
+                    <th>IsComplete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,6 +43,7 @@
                     </td>
                     <td>
                         <input id="{{task.taskId}}" type="checkbox" value="{{task.taskId}}" ng-checked="selection.indexOf(task.taskId) > -1" ng-click="toggleSelection(task.taskId)" />
+                        <label for="{{task.taskId}}"></label>
                     </td>
 
                 </tr>

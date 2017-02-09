@@ -11,6 +11,10 @@ TaskManagerApp.config(function ($routeProvider, $locationProvider) {
                 templateUrl: '/view/tasks.html',
                 controller: 'tasksCtrl'
             })
+            .when('/tasks/update',{
+                templateUrl : '/view/tasks.html',
+                controller: 'tasksCtrl'
+            })
             .otherwise(
                     {redirectTo: '/'}
             );

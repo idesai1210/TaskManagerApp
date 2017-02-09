@@ -70,12 +70,12 @@ public class MySqlTaskDaoImpl implements TaskDao {
     }
 
     @Override
-    public void deleteTaskByID(int id) {
+    public void deleteTaskByStatus(String taskStatus) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("delete from task_list where task_id=?");
+                    .prepareStatement("delete from task_list where task_status=?");
             // Parameters start with 1
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, taskStatus);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -83,16 +83,16 @@ public class MySqlTaskDaoImpl implements TaskDao {
     }
 
     @Override
-    public void updateTask(Task task) throws ParseException {
+    public void updateTask(int taskId, String taskStatus) throws ParseException {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("update task_list set task_name=?, task_description=?, task_priority=?,task_status=?" +
+                    .prepareStatement("update task_list set task_status=?" +
                             "where task_id=?");
-            preparedStatement.setString(1, task.getTaskName());
-            preparedStatement.setString(2, task.getTaskDescription());
-            preparedStatement.setString(3, task.getTaskPriority());
-            preparedStatement.setString(4, task.getTaskStatus());
-            preparedStatement.setInt(5, task.getTaskId());
+           // preparedStatement.setString(1, task.getTaskName());
+           // preparedStatement.setString(2, task.getTaskDescription());
+            //preparedStatement.setString(3, task.getTaskPriority());
+            preparedStatement.setString(1, taskStatus);
+            preparedStatement.setInt(2, taskId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
